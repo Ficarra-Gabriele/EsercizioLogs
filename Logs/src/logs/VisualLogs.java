@@ -25,7 +25,8 @@ public class VisualLogs extends javax.swing.JFrame {
         applicaStileFFXV();
         personalizzaBottoni();
     }
-
+    
+    
     private void applicaStileFFXV() { // i colori sono stati scelti tramite chatgpt
         java.awt.Color darkBg = new java.awt.Color(18, 18, 18);
         java.awt.Color accentGold = new java.awt.Color(184, 158, 80);
@@ -169,15 +170,15 @@ public class VisualLogs extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCarica)
+                .addGap(48, 48, 48)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(btnIpSospetti)
                     .addComponent(btnAccessiFalliti)
                     .addComponent(btnIntervallo)
-                    .addComponent(btnOrdina))
-                .addGap(43, 43, 43)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+                    .addComponent(btnOrdina)
+                    .addComponent(btnCarica))
+                .addGap(60, 60, 60)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 654, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -190,15 +191,15 @@ public class VisualLogs extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(235, 235, 235)
+                .addGap(244, 244, 244)
                 .addComponent(btnCarica)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnIpSospetti)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAccessiFalliti)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnIntervallo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnOrdina)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -231,7 +232,7 @@ public class VisualLogs extends javax.swing.JFrame {
 
     private void btnIntervalloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIntervalloActionPerformed
         String[] colIntervallo = {"IP Rilevato", "Ora Primo Accesso"};
-        List<String[]> datiFiltrati = gestore.intervallo(dati, "08:00", "12:00");
+        List<String[]> datiFiltrati = gestore.intervallo(dati, "08:00", "12:00" );
         aggiornaTabella(datiFiltrati, colIntervallo);
     }//GEN-LAST:event_btnIntervalloActionPerformed
 
@@ -265,7 +266,6 @@ public class VisualLogs extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new VisualLogs().setVisible(true));
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAccessiFalliti;

@@ -24,16 +24,16 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="btnCarica" linkSize="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnIpSospetti" linkSize="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnAccessiFalliti" linkSize="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnIntervallo" linkSize="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnOrdina" linkSize="1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="btnIpSospetti" linkSize="1" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnAccessiFalliti" linkSize="1" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnIntervallo" linkSize="1" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnOrdina" linkSize="1" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnCarica" linkSize="1" alignment="2" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
-              <Component id="jScrollPane2" pref="673" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+              <Component id="jScrollPane2" pref="654" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -46,15 +46,15 @@
               <EmptySpace max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="235" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="244" max="-2" attributes="0"/>
               <Component id="btnCarica" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="btnIpSospetti" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="btnAccessiFalliti" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="btnIntervallo" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="btnOrdina" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
