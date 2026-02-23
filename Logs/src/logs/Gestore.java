@@ -14,12 +14,15 @@ import java.util.List;
 public class Gestore {
 
     /**
-     * stampa i fallimenti totali raggruppandoli per utente.
+     * conta i fallimenti per utente e restituisce i dati per la tabella.
      *
-     * @param dati lista dei log da elaborare.
+     * @param dati lista originale dei log.
+     * @return lista contenente coppie utente-conteggio.
      */
-    public void accessiFalliti(List<String[]> dati) {
-
+    
+    public List<String[]> accessiFalliti(List<String[]> dati) {
+        List<String[]> risultati = new ArrayList<>();
+        
         for (int i = 0; i < dati.size() - 1; i++) {
             for (int j = 0; j < dati.size() - i - 1; j++) {
                 if (dati.get(j)[1].compareTo(dati.get(j + 1)[1]) > 0) {
@@ -31,37 +34,32 @@ public class Gestore {
         }
 
         int i = 0;
-        int n = dati.size();
-
-        while (i < n) {
-            String utenteCorrente = dati.get(i)[1];
+        while (i < dati.size()) {
+            String utente = dati.get(i)[1];
             int count = 0;
-
             int j = i;
-            while (j < n && dati.get(j)[1].equals(utenteCorrente)) {
+            while (j < dati.size() && dati.get(j)[1].equals(utente)) {
                 if (dati.get(j)[3].equals("FAIL")) {
                     count++;
                 }
                 j++;
             }
-
-            System.out.println(utenteCorrente + ": " + count);
+            // Aggiungiamo solo le due colonne che ci interessano
+            risultati.add(new String[]{utente, String.valueOf(count)});
             i = j;
         }
+        return risultati;
     }
 
     /**
-     * individua gli ip con un numero di fallimenti superiore al limite.
-     * @param dati lista dei log da controllare.
+     * identifica gli ip sospetti e restituisce i dati filtrati.
+     *
+     * @param dati lista originale dei log.
+     * @return lista di array.
      */
-    
-    public void ipSospetti(List<String[]> dati) {
-        if (dati.isEmpty()) {
-            return;
-        }
-
-        int limite = 2;
-
+    public List<String[]> ipSospetti(List<String[]> dati) {
+        List<String[]> risultati = new ArrayList<>();
+        
         for (int i = 0; i < dati.size() - 1; i++) {
             for (int j = 0; j < dati.size() - i - 1; j++) {
                 if (dati.get(j)[2].compareTo(dati.get(j + 1)[2]) > 0) {
@@ -73,30 +71,27 @@ public class Gestore {
         }
 
         int i = 0;
-        int n = dati.size();
-
-        while (i < n) {
-            String ipAttuale = dati.get(i)[2];
-            int countFail = 0;
-
+        while (i < dati.size()) {
+            String ip = dati.get(i)[2];
+            int count = 0;
             int j = i;
-            while (j < n && dati.get(j)[2].equals(ipAttuale)) {
+            while (j < dati.size() && dati.get(j)[2].equals(ip)) {
                 if (dati.get(j)[3].equals("FAIL")) {
-                    countFail++;
+                    count++;
                 }
                 j++;
             }
-
-            if (countFail >= limite) {
-                System.out.println(ipAttuale + " e' sospetto, ha fatto: " + countFail + " fallimenti");
+            if (count >= 2) {
+                risultati.add(new String[]{ip, String.valueOf(count)});
             }
-
             i = j;
         }
+        return risultati;
     }
 
     /**
      * mostra gli ip unici che hanno effettuato accessi in una fascia oraria.
+     *
      * @param dati lista dei log.
      * @param oraInizio limite inferiore orario.
      * @param oraFine limite superiore orario.
@@ -118,9 +113,9 @@ public class Gestore {
 
     /**
      * ordina e stampa i log in ordine temporale crescente.
+     *
      * @param dati lista dei log da ordinare.
      */
-    
     public void ordinaPerTimestamp(List<String[]> dati) {
 
         for (int i = 0; i < dati.size() - 1; i++) {

@@ -33,5 +33,8 @@ public class Logs {
         System.out.println();
         
         gestore.ordinaPerTimestamp(dati);
+        
+        VisualLogs form = new VisualLogs();
+        form.setVisible(true);
     }
 }
