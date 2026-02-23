@@ -14,15 +14,18 @@ import java.util.List;
 public class Gestore {
 
     /**
-     * conta i fallimenti per utente e restituisce i dati per la tabella.
+     * Conta i fallimenti per ogni utente ordinando i dati alfabeticamente.
      *
-     * @param dati lista originale dei log.
-     * @return lista contenente coppie utente-conteggio.
+     * @param dati Lista originale dei log.
+     * @return Lista di coppie.
      */
     
     public List<String[]> accessiFalliti(List<String[]> dati) {
         List<String[]> risultati = new ArrayList<>();
-        
+        if (dati == null) {
+            return risultati;
+        }
+
         for (int i = 0; i < dati.size() - 1; i++) {
             for (int j = 0; j < dati.size() - i - 1; j++) {
                 if (dati.get(j)[1].compareTo(dati.get(j + 1)[1]) > 0) {
@@ -44,7 +47,6 @@ public class Gestore {
                 }
                 j++;
             }
-            // Aggiungiamo solo le due colonne che ci interessano
             risultati.add(new String[]{utente, String.valueOf(count)});
             i = j;
         }
@@ -52,14 +54,17 @@ public class Gestore {
     }
 
     /**
-     * identifica gli ip sospetti e restituisce i dati filtrati.
+     * Filtra gli IP con almeno 2 tentativi falliti.
      *
-     * @param dati lista originale dei log.
-     * @return lista di array.
+     * @param dati Lista dei log.
+     * @return Lista di coppie.
      */
     public List<String[]> ipSospetti(List<String[]> dati) {
         List<String[]> risultati = new ArrayList<>();
-        
+        if (dati == null) {
+            return risultati;
+        }
+
         for (int i = 0; i < dati.size() - 1; i++) {
             for (int j = 0; j < dati.size() - i - 1; j++) {
                 if (dati.get(j)[2].compareTo(dati.get(j + 1)[2]) > 0) {
@@ -90,49 +95,52 @@ public class Gestore {
     }
 
     /**
-     * mostra gli ip unici che hanno effettuato accessi in una fascia oraria.
+     * Estrae IP unici attivi in una determinata fascia oraria.
      *
-     * @param dati lista dei log.
-     * @param oraInizio limite inferiore orario.
-     * @param oraFine limite superiore orario.
+     * @param dati Lista dei log.
+     * @param oraInizio Limite orario.
+     * @param oraFine Limite orario.
+     * @return Lista di array.
      */
-    public void intervallo(List<String[]> dati, String oraInizio, String oraFine) {
+    public List<String[]> intervallo(List<String[]> dati, String oraInizio, String oraFine) {
+        List<String[]> risultati = new ArrayList<>();
         List<String> ipTrovati = new ArrayList<>();
-        for (int i = 0; i < dati.size(); i++) {
-            String t = dati.get(i)[0];
-            String o = t.substring(11);
+        if (dati == null) {
+            return risultati;
+        }
+
+        for (String[] riga : dati) {
+            String o = riga[0].substring(11);
             if (o.compareTo(oraInizio) >= 0 && o.compareTo(oraFine) <= 0) {
-                String ip = dati.get(i)[2];
-                if (!ipTrovati.contains(ip)) {
-                    ipTrovati.add(ip);
-                    System.out.println("accesso rilevato dall'IP: " + ip + " alle ore " + o);
+                if (!ipTrovati.contains(riga[2])) {
+                    ipTrovati.add(riga[2]);
+                    risultati.add(new String[]{riga[2], o});
                 }
             }
         }
+        return risultati;
     }
 
     /**
-     * ordina e stampa i log in ordine temporale crescente.
+     * Ordina cronologicamente i log tramite il timestamp.
      *
-     * @param dati lista dei log da ordinare.
+     * @param dati Lista dei log.
+     * @return Lista ordinata per data e ora.
      */
-    public void ordinaPerTimestamp(List<String[]> dati) {
-
-        for (int i = 0; i < dati.size() - 1; i++) {
-            for (int j = 0; j < dati.size() - i - 1; j++) {
-                String ts1 = dati.get(j)[0];
-                String ts2 = dati.get(j + 1)[0];
-
-                if (ts1.compareTo(ts2) > 0) {
-                    String[] temp = dati.get(j);
-                    dati.set(j, dati.get(j + 1));
-                    dati.set(j + 1, temp);
+    public List<String[]> ordinaPerTimestamp(List<String[]> dati) {
+        if (dati == null) {
+            return new ArrayList<>();
+        }
+        List<String[]> copia = new ArrayList<>(dati);
+        for (int i = 0; i < copia.size() - 1; i++) {
+            for (int j = 0; j < copia.size() - i - 1; j++) {
+                if (copia.get(j)[0].compareTo(copia.get(j + 1)[0]) > 0) {
+                    String[] temp = copia.get(j);
+                    copia.set(j, copia.get(j + 1));
+                    copia.set(j + 1, temp);
                 }
             }
         }
-        for (int i = 0; i < dati.size(); i++) {
-            String[] riga = dati.get(i);
-            System.out.println(riga[0] + " | " + riga[1] + " | " + riga[2] + " | " + riga[3]);
-        }
+        return copia;
     }
 }

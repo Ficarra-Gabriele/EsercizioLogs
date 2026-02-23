@@ -14,26 +14,80 @@ import javax.swing.table.DefaultTableModel;
 public class VisualLogs extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VisualLogs.class.getName());
-
+    
     private FileManager fm = new FileManager();
     private Gestore gestore = new Gestore();
     private List<String[]> dati;
-
-    /**
-     * Creates new form VisualLogs
-     */
+    
     public VisualLogs() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        applicaStileFFXV();
+        personalizzaBottoni();
+    }
+
+    private void applicaStileFFXV() { // i colori sono stati scelti tramite chatgpt
+        java.awt.Color darkBg = new java.awt.Color(18, 18, 18);
+        java.awt.Color accentGold = new java.awt.Color(184, 158, 80);
+        java.awt.Color textWhite = new java.awt.Color(220, 220, 220);
+
+        this.getContentPane().setBackground(darkBg);
+        jTable2.setBackground(darkBg);
+        jTable2.setForeground(textWhite);
+        jTable2.setGridColor(new java.awt.Color(40, 40, 40));
+        jTable2.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        jTable2.setShowVerticalLines(false);
+        jTable2.setIntercellSpacing(new java.awt.Dimension(0, 1));
+        jTable2.setRowHeight(40);
+
+        jTable2.getTableHeader().setBackground(new java.awt.Color(25, 25, 25));
+        jTable2.getTableHeader().setForeground(accentGold);
+        jTable2.getTableHeader().setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, accentGold));
+
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(50, 50, 50)));
+        jScrollPane2.getViewport().setBackground(darkBg);
+
+        javax.swing.JButton[] bottoni = {btnCarica, btnIpSospetti, btnAccessiFalliti, btnIntervallo, btnOrdina};
+        for (javax.swing.JButton btn : bottoni) {
+            btn.setBackground(new java.awt.Color(30, 30, 30));
+            btn.setForeground(textWhite);
+            btn.setFocusPainted(false);
+            btn.setOpaque(true);
+            btn.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+                    javax.swing.BorderFactory.createMatteBorder(0, 5, 0, 0, accentGold),
+                    javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20)
+            ));
+        }
+    }
+
+    private void personalizzaBottoni() {
+        javax.swing.JButton[] mieiBottoni = {btnCarica, btnIpSospetti, btnAccessiFalliti, btnIntervallo, btnOrdina};
+        for (javax.swing.JButton btn : mieiBottoni) {
+            String testoOriginale = btn.getText();
+            btn.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseEntered(java.awt.event.MouseEvent e) {
+                    btn.setText("> " + testoOriginale.toUpperCase());
+                    btn.setForeground(new java.awt.Color(184, 158, 80));
+                    btn.setBackground(new java.awt.Color(45, 45, 45));
+                }
+
+                @Override
+                public void mouseExited(java.awt.event.MouseEvent e) {
+                    btn.setText(testoOriginale);
+                    btn.setForeground(java.awt.Color.WHITE);
+                    btn.setBackground(new java.awt.Color(30, 30, 30));
+                }
+            });
+        }
     }
 
     /**
-     * aggiorna il contenuto della tabella con i dati forniti.
      *
-     * * @param listaDati lista di array di stringhe.
+     * @param listaDati Dati da inserire nelle righe.
+     * @param colonne Nomi delle intestazioni.
      */
-    
     private void aggiornaTabella(List<String[]> listaDati, String[] colonne) {
-        
         DefaultTableModel modello = new DefaultTableModel(colonne, 0);
         for (String[] riga : listaDati) {
             modello.addRow(riga);
@@ -55,6 +109,8 @@ public class VisualLogs extends javax.swing.JFrame {
         btnCarica = new javax.swing.JButton();
         btnIpSospetti = new javax.swing.JButton();
         btnAccessiFalliti = new javax.swing.JButton();
+        btnIntervallo = new javax.swing.JButton();
+        btnOrdina = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -94,6 +150,20 @@ public class VisualLogs extends javax.swing.JFrame {
             }
         });
 
+        btnIntervallo.setText("Intervallo");
+        btnIntervallo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIntervalloActionPerformed(evt);
+            }
+        });
+
+        btnOrdina.setText("Ordina");
+        btnOrdina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrdinaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -103,13 +173,15 @@ public class VisualLogs extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCarica)
                     .addComponent(btnIpSospetti)
-                    .addComponent(btnAccessiFalliti))
+                    .addComponent(btnAccessiFalliti)
+                    .addComponent(btnIntervallo)
+                    .addComponent(btnOrdina))
                 .addGap(43, 43, 43)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAccessiFalliti, btnCarica, btnIpSospetti});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAccessiFalliti, btnCarica, btnIntervallo, btnIpSospetti, btnOrdina});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,6 +196,10 @@ public class VisualLogs extends javax.swing.JFrame {
                 .addComponent(btnIpSospetti)
                 .addGap(18, 18, 18)
                 .addComponent(btnAccessiFalliti)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnIntervallo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnOrdina)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -135,24 +211,35 @@ public class VisualLogs extends javax.swing.JFrame {
     private void btnCaricaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCaricaActionPerformed
 
         dati = fm.leggiFile();
-        
-            String[] colLog = {"Timestamp", "Utente", "IP", "Stato"};
-            aggiornaTabella(fm.leggiFile(), colLog); 
+        String[] colLog = {"Timestamp", "Utente", "IP", "Stato"};
+        aggiornaTabella(fm.leggiFile(), colLog);
     }//GEN-LAST:event_btnCaricaActionPerformed
 
     private void btnAccessiFallitiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccessiFallitiActionPerformed
 
-            String[] colUtenti = {"Nome Utente", "Totale Fallimenti"};
-            List<String[]> datiFiltrati = gestore.accessiFalliti(dati);
-            aggiornaTabella(datiFiltrati, colUtenti);
+        String[] colUtenti = {"Nome Utente", "Totale Fallimenti"};
+        List<String[]> datiFiltrati = gestore.accessiFalliti(dati);
+        aggiornaTabella(datiFiltrati, colUtenti);
     }//GEN-LAST:event_btnAccessiFallitiActionPerformed
 
     private void btnIpSospettiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIpSospettiActionPerformed
-        
-            String[] colIp = {"Indirizzo IP", "Conteggio FAIL"};
-            List<String[]> datiFiltrati = gestore.ipSospetti(dati);
-            aggiornaTabella(datiFiltrati, colIp);
+
+        String[] colIp = {"Indirizzo IP", "Conteggio FAIL"};
+        List<String[]> datiFiltrati = gestore.ipSospetti(dati);
+        aggiornaTabella(datiFiltrati, colIp);
     }//GEN-LAST:event_btnIpSospettiActionPerformed
+
+    private void btnIntervalloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIntervalloActionPerformed
+        String[] colIntervallo = {"IP Rilevato", "Ora Primo Accesso"};
+        List<String[]> datiFiltrati = gestore.intervallo(dati, "08:00", "12:00");
+        aggiornaTabella(datiFiltrati, colIntervallo);
+    }//GEN-LAST:event_btnIntervalloActionPerformed
+
+    private void btnOrdinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdinaActionPerformed
+        String[] colLog = {"Timestamp", "Utente", "IP", "Stato"};
+        List<String[]> datiOrdinati = gestore.ordinaPerTimestamp(dati);
+        aggiornaTabella(datiOrdinati, colLog);
+    }//GEN-LAST:event_btnOrdinaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -179,10 +266,13 @@ public class VisualLogs extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> new VisualLogs().setVisible(true));
     }
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAccessiFalliti;
     private javax.swing.JButton btnCarica;
+    private javax.swing.JButton btnIntervallo;
     private javax.swing.JButton btnIpSospetti;
+    private javax.swing.JButton btnOrdina;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables
