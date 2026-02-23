@@ -16,7 +16,7 @@ public class Gestore {
     /**
      * Conta e stampa il numero di accessi falliti per ogni utente.
      *
-     * * @param dati è una lista di array di stringhe contenente i log.
+     * @param dati è una lista di array di stringhe contenente i log.
      */
     public void accessiFalliti(List<String[]> dati) {
 
@@ -40,7 +40,7 @@ public class Gestore {
     /**
      * Identifica e stampa gli indirizzi IP chevengono considerati sospetti.
      *
-     * * @param dati lista di array di stringhe contenente i log.
+     * @param dati lista di array di stringhe contenente i log.
      */
     public void ipSospetti(List<String[]> dati) {
         int limite = 2;
@@ -66,14 +66,14 @@ public class Gestore {
         }
     }
 
+    /**
+     * Filtra gli accessi avvenuti in un determinato intervallo temporale.
+     *
+     * @param dati Lista di array di stringhe contenente i log.
+     * @param oraInizio Orario di inizio dell'intervallo.
+     * @param oraFine Orario di fine dell'intervallo.
+     */
     public void intervallo(List<String[]> dati, String oraInizio, String oraFine) {
-        /**
-         * Filtra gli accessi avvenuti in un determinato intervallo temporale.
-         *
-         * @param dati Lista di array di stringhe contenente i log.
-         * @param oraInizio Orario di inizio dell'intervallo.
-         * @param oraFine Orario di fine dell'intervallo.
-         */
         List<String> ipTrovati = new ArrayList<>();
         for (int i = 0; i < dati.size(); i++) {
             String t = dati.get(i)[0];
@@ -88,12 +88,13 @@ public class Gestore {
         }
     }
 
+    /**
+     * Ordina cronologicamente i dati in base al timestamp.
+     *
+     * @param dati lista di array di stringhe da ordinare.
+     */
     public void ordinaPerTimestamp(List<String[]> dati) {
-        /**
-         * Ordina cronologicamente i dati in base al timestamp.
-         *
-         * * @param dati lista di array di stringhe da ordinare.
-         */
+
         for (int i = 0; i < dati.size() - 1; i++) {
             for (int j = 0; j < dati.size() - i - 1; j++) {
                 String ts1 = dati.get(j)[0];

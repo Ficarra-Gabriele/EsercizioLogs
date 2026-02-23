@@ -20,6 +20,12 @@ public class FileManager {
     private String filePath = "LogAccessi.csv";
     private List<String[]> righe = new ArrayList<>();
 
+    /**
+     * Legge il file e restituisce un array.
+     *
+     *
+     * @return righe
+     */
     public List<String[]> leggiFile() {
 
         try (BufferedReader rd = new BufferedReader(new FileReader(filePath))) {
