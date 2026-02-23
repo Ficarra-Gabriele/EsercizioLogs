@@ -17,23 +17,21 @@ public class Logs {
      */
     public static void main(String[] args) {
         
-        FileManager f1 = new FileManager();
+        FileManager fileManager = new FileManager();
+        Gestore gestore = new Gestore();
         
-        List<String[]> dati;
-        dati = f1.leggiFile();
+        List<String[]>  dati = fileManager.leggiFile();
         System.out.println();
         
-        Gestore g = new Gestore();
-        
-        g.accessiFalliti(dati);
+        gestore.accessiFalliti(dati);
         System.out.println();
         
-        g.intervallo(dati, "14:30:05", "16:00:00");
+        gestore.intervallo(dati, "14:30:05", "16:00:00");
         System.out.println();
         
-        g.ipSospetti(dati);
+        gestore.ipSospetti(dati);
         System.out.println();
         
-        g.ordinaPerTimestamp(dati);
+        gestore.ordinaPerTimestamp(dati);
     }
 }

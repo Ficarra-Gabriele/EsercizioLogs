@@ -14,64 +14,92 @@ import java.util.List;
 public class Gestore {
 
     /**
-     * Conta e stampa il numero di accessi falliti per ogni utente.
+     * stampa i fallimenti totali raggruppandoli per utente.
      *
-     * @param dati è una lista di array di stringhe contenente i log.
+     * @param dati lista dei log da elaborare.
      */
     public void accessiFalliti(List<String[]> dati) {
 
-        ArrayList controllati = new ArrayList<>();
-
-        for (int i = 0; i < dati.size(); i++) {
-            String x = dati.get(i)[1];
-            if (!controllati.contains(x)) {
-                int count = 0;
-                for (int j = 0; j < dati.size(); j++) {
-                    if (dati.get(j)[1].equals(x) && dati.get(j)[3].equals("FAIL")) {
-                        count++;
-                    }
+        for (int i = 0; i < dati.size() - 1; i++) {
+            for (int j = 0; j < dati.size() - i - 1; j++) {
+                if (dati.get(j)[1].compareTo(dati.get(j + 1)[1]) > 0) {
+                    String[] temp = dati.get(j);
+                    dati.set(j, dati.get(j + 1));
+                    dati.set(j + 1, temp);
                 }
-                System.out.println(x + ": " + count);
-                controllati.add(x);
             }
+        }
+
+        int i = 0;
+        int n = dati.size();
+
+        while (i < n) {
+            String utenteCorrente = dati.get(i)[1];
+            int count = 0;
+
+            int j = i;
+            while (j < n && dati.get(j)[1].equals(utenteCorrente)) {
+                if (dati.get(j)[3].equals("FAIL")) {
+                    count++;
+                }
+                j++;
+            }
+
+            System.out.println(utenteCorrente + ": " + count);
+            i = j;
         }
     }
 
     /**
-     * Identifica e stampa gli indirizzi IP chevengono considerati sospetti.
-     *
-     * @param dati lista di array di stringhe contenente i log.
+     * individua gli ip con un numero di fallimenti superiore al limite.
+     * @param dati lista dei log da controllare.
      */
+    
     public void ipSospetti(List<String[]> dati) {
+        if (dati.isEmpty()) {
+            return;
+        }
+
         int limite = 2;
-        ArrayList<String> controllati = new ArrayList<>();
 
-        for (int i = 0; i < dati.size(); i++) {
-            String ipAttuale = dati.get(i)[2];
-
-            if (!controllati.contains(ipAttuale)) {
-                int countFail = 0;
-
-                for (int j = 0; j < dati.size(); j++) {
-                    if (dati.get(j)[2].equals(ipAttuale) && dati.get(j)[3].equals("FAIL")) {
-                        countFail++;
-                    }
+        for (int i = 0; i < dati.size() - 1; i++) {
+            for (int j = 0; j < dati.size() - i - 1; j++) {
+                if (dati.get(j)[2].compareTo(dati.get(j + 1)[2]) > 0) {
+                    String[] temp = dati.get(j);
+                    dati.set(j, dati.get(j + 1));
+                    dati.set(j + 1, temp);
                 }
-
-                if (countFail >= limite) {
-                    System.out.println(ipAttuale + " e' sospetto, ha fatto:  " + countFail + " fallimenti");
-                }
-                controllati.add(ipAttuale);
             }
+        }
+
+        int i = 0;
+        int n = dati.size();
+
+        while (i < n) {
+            String ipAttuale = dati.get(i)[2];
+            int countFail = 0;
+
+            int j = i;
+            while (j < n && dati.get(j)[2].equals(ipAttuale)) {
+                if (dati.get(j)[3].equals("FAIL")) {
+                    countFail++;
+                }
+                j++;
+            }
+
+            if (countFail >= limite) {
+                System.out.println(ipAttuale + " e' sospetto, ha fatto: " + countFail + " fallimenti");
+            }
+
+            i = j;
         }
     }
 
     /**
-     * Filtra gli accessi avvenuti in un determinato intervallo temporale.
-     *
-     * @param dati Lista di array di stringhe contenente i log.
-     * @param oraInizio Orario di inizio dell'intervallo.
-     * @param oraFine Orario di fine dell'intervallo.
+     * mostra gli ip unici che hanno effettuato accessi in una fascia oraria.
+     * @param dati lista dei log.
+     * @param oraInizio limite inferiore orario.
+     * @param oraFine limite superiore orario.
      */
     public void intervallo(List<String[]> dati, String oraInizio, String oraFine) {
         List<String> ipTrovati = new ArrayList<>();
@@ -89,10 +117,10 @@ public class Gestore {
     }
 
     /**
-     * Ordina cronologicamente i dati in base al timestamp.
-     *
-     * @param dati lista di array di stringhe da ordinare.
+     * ordina e stampa i log in ordine temporale crescente.
+     * @param dati lista dei log da ordinare.
      */
+    
     public void ordinaPerTimestamp(List<String[]> dati) {
 
         for (int i = 0; i < dati.size() - 1; i++) {

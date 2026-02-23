@@ -21,10 +21,8 @@ public class FileManager {
     private List<String[]> righe = new ArrayList<>();
 
     /**
-     * Legge il file e restituisce un array.
-     *
-     *
-     * @return righe
+     * legge il file csv e carica i dati in una lista di array.
+     * @return lista contenente le righe del file.
      */
     public List<String[]> leggiFile() {
 
